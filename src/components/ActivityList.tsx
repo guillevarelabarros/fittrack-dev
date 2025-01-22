@@ -11,10 +11,37 @@ import {
   Box,
 } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
+import { useState } from 'react';
+import ConfirmDialog from './ConfirmDialog'; // Importar el nuevo componente
+import { useSnackbar } from 'notistack'; // Importar notistack
 
 export default function ActivityList() {
   const { state, dispatch, isEmptyActivities, categoryName } = useActivity();
   const theme = useTheme();
+  const { enqueueSnackbar } = useSnackbar(); // Inicializar notistack
+
+  const [openDialog, setOpenDialog] = useState(false);
+  const [activityToDelete, setActivityToDelete] = useState<string>('');
+
+  const handleDeleteClick = (id: string) => {
+    setActivityToDelete(id);
+    setOpenDialog(true);
+  };
+
+  const handleConfirmDelete = () => {
+    dispatch({
+      type: 'delete-activity',
+      payload: { id: activityToDelete },
+    });
+    enqueueSnackbar('Actividad eliminada exitosamente', { variant: 'success' });
+    setOpenDialog(false);
+    setActivityToDelete('');
+  };
+
+  const handleCancelDelete = () => {
+    setOpenDialog(false);
+    setActivityToDelete('');
+  };
 
   return (
     <Box>
@@ -87,12 +114,7 @@ export default function ActivityList() {
                   </IconButton>
                   <IconButton
                     color='error'
-                    onClick={() =>
-                      dispatch({
-                        type: 'delete-activity',
-                        payload: { id: activity.id },
-                      })
-                    }
+                    onClick={() => handleDeleteClick(activity.id)}
                   >
                     <Delete />
                   </IconButton>
@@ -102,6 +124,15 @@ export default function ActivityList() {
           ))}
         </Grid>
       )}
+
+      {/* Diálogo de Confirmación */}
+      <ConfirmDialog
+        open={openDialog}
+        title='Confirmar Eliminación'
+        content='¿Estás seguro de que deseas eliminar esta actividad? Esta acción no se puede deshacer.'
+        onClose={handleCancelDelete}
+        onConfirm={handleConfirmDelete}
+      />
     </Box>
   );
 }

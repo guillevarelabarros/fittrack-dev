@@ -16,8 +16,7 @@ import {
   Typography,
   SelectChangeEvent,
 } from '@mui/material';
-// Eliminada la importación de useTheme
-// import { useTheme } from '@mui/material/styles';
+import { useSnackbar } from 'notistack'; // Importar notistack
 
 const initialState: Activity = {
   id: uuidv4(),
@@ -29,8 +28,7 @@ const initialState: Activity = {
 export default function Form() {
   const { state, dispatch } = useActivity();
   const [activity, setActivity] = useState<Activity>(initialState);
-  // Eliminada la declaración de theme
-  // const theme = useTheme();
+  const { enqueueSnackbar } = useSnackbar(); // Inicializar notistack
 
   useEffect(() => {
     if (state.activeId) {
@@ -72,6 +70,7 @@ export default function Form() {
     e.preventDefault();
 
     dispatch({ type: 'save-activity', payload: { newActivity: activity } });
+    enqueueSnackbar('Actividad guardada exitosamente', { variant: 'success' }); // Mostrar notificación
     setActivity({
       ...initialState,
       id: uuidv4(),
@@ -92,6 +91,7 @@ export default function Form() {
             value={activity.category}
             label='Categoría'
             onChange={handleSelectChange}
+            error={activity.category === 0}
           >
             {categories.map(category => (
               <MenuItem key={category.id} value={category.id}>
@@ -110,6 +110,11 @@ export default function Form() {
           value={activity.name}
           onChange={handleInputChange}
           sx={{ mb: 2 }}
+          required
+          error={activity.name.trim() === ''}
+          helperText={
+            activity.name.trim() === '' ? 'El nombre es obligatorio' : ''
+          }
         />
 
         <TextField
@@ -122,6 +127,11 @@ export default function Form() {
           value={activity.calories}
           onChange={handleInputChange}
           sx={{ mb: 2 }}
+          required
+          error={activity.calories <= 0}
+          helperText={
+            activity.calories <= 0 ? 'Las calorías deben ser mayores que 0' : ''
+          }
         />
 
         <Button

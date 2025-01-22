@@ -14,13 +14,15 @@ import {
   IconButton,
 } from '@mui/material';
 import { Brightness4, Brightness7 } from '@mui/icons-material';
-import { useColorMode } from './hooks/useColorMode'; // Importar correctamente desde hooks
+import { useColorMode } from './hooks/useColorMode';
 import { useTheme } from '@mui/material/styles';
+import { useSnackbar } from 'notistack'; // Importar notistack
 
 function App() {
   const { state, dispatch } = useActivity();
   const { toggleColorMode } = useColorMode();
   const theme = useTheme();
+  const { enqueueSnackbar } = useSnackbar(); // Inicializar notistack
 
   useEffect(() => {
     localStorage.setItem('activities', JSON.stringify(state.activities));
@@ -30,6 +32,11 @@ function App() {
     () => state.activities.length > 0,
     [state.activities]
   );
+
+  const handleRestartApp = () => {
+    dispatch({ type: 'restart-app' });
+    enqueueSnackbar('Aplicación reiniciada correctamente', { variant: 'info' });
+  };
 
   return (
     <>
@@ -44,7 +51,7 @@ function App() {
               textTransform: 'uppercase',
             }}
           >
-            Contador de Calorias
+            Contador de Calorías
           </Typography>
           <IconButton sx={{ ml: 1 }} onClick={toggleColorMode} color='inherit'>
             {theme.palette.mode === 'dark' ? <Brightness7 /> : <Brightness4 />}
@@ -53,7 +60,7 @@ function App() {
             variant='contained'
             color='secondary'
             disabled={!canRestartApp}
-            onClick={() => dispatch({ type: 'restart-app' })}
+            onClick={handleRestartApp} // Usar la nueva función
             sx={{ ml: 2 }}
           >
             Reiniciar App

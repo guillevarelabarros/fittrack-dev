@@ -1,5 +1,6 @@
 // src/components/CalorieTracker.tsx
 import CalorieDisplay from './CalorieDisplay';
+import CalorieChart from './CalorieChart'; // Importar el nuevo componente
 import { useActivity } from '../hooks/useActivity';
 import { Typography, Grid, Box } from '@mui/material';
 
@@ -12,12 +13,11 @@ export default function CalorieTracker() {
         variant='h4'
         component='h2'
         align='center'
-        color='white'
+        color='textPrimary'
         gutterBottom
       >
         Resumen de Calorías
       </Typography>
-
       <Grid container spacing={2} justifyContent='center' sx={{ mt: 2 }}>
         <Grid item xs={12} md={4}>
           <CalorieDisplay calories={caloriesConsumed} text='Consumidas' />
@@ -29,6 +29,7 @@ export default function CalorieTracker() {
           <CalorieDisplay calories={netCalories} text='Diferencia' />
         </Grid>
       </Grid>
+      <CalorieChart /> {/* Añadir el gráfico aquí */}
     </Box>
   );
 }

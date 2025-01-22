@@ -2,20 +2,27 @@
 import { useState, useMemo, ReactNode } from 'react';
 import { ThemeProvider, createTheme, PaletteMode } from '@mui/material';
 import CssBaseline from '@mui/material/CssBaseline';
-import { ColorModeContext } from './ColorModeContext'; // Importar el contexto desde el nuevo archivo
+import { ColorModeContext } from './ColorModeContext';
 
 type ThemeProviderProps = {
   children: ReactNode;
 };
 
 export const CustomThemeProvider = ({ children }: ThemeProviderProps) => {
-  const [mode, setMode] = useState<PaletteMode>('light'); // Estado para el modo de color
+  const [mode, setMode] = useState<PaletteMode>(() => {
+    const storedMode = localStorage.getItem('themeMode') as PaletteMode;
+    return storedMode ? storedMode : 'light';
+  });
 
   // Función para alternar entre modo claro y oscuro
   const colorMode = useMemo(
     () => ({
       toggleColorMode: () => {
-        setMode(prevMode => (prevMode === 'light' ? 'dark' : 'light'));
+        setMode(prevMode => {
+          const newMode = prevMode === 'light' ? 'dark' : 'light';
+          localStorage.setItem('themeMode', newMode); // Persistir en localStorage
+          return newMode;
+        });
       },
     }),
     []
