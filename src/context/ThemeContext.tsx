@@ -34,33 +34,53 @@ export const CustomThemeProvider = ({ children }: ThemeProviderProps) => {
       createTheme({
         palette: {
           mode,
-          ...(mode === 'light'
-            ? {
-                // Paleta para modo claro
-                primary: {
-                  main: '#84cc16', // Verde claro
-                },
-                secondary: {
-                  main: '#f44336', // Rojo para botones secundarios
-                },
-                background: {
-                  default: '#fafafa',
-                  paper: '#ffffff',
-                },
-              }
-            : {
-                // Paleta para modo oscuro
-                primary: {
-                  main: '#4caf50', // Verde oscuro
-                },
-                secondary: {
-                  main: '#ff5252', // Rojo claro para botones secundarios
-                },
-                background: {
-                  default: '#121212',
-                  paper: '#1e1e1e',
-                },
-              }),
+          primary: {
+            main: mode === 'light' ? '#4caf50' : '#81c784', // Verde más sofisticado
+          },
+          secondary: {
+            main: '#ff9800', // Naranja para un contraste vibrante
+          },
+          background: {
+            default: mode === 'light' ? '#fafafa' : '#121212',
+            paper: mode === 'light' ? '#ffffff' : '#1e1e1e',
+          },
+          text: {
+            primary: mode === 'light' ? '#333333' : '#ffffff',
+            secondary: mode === 'light' ? '#555555' : '#bbbbbb',
+          },
+        },
+        typography: {
+          fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
+          h5: {
+            fontWeight: 700,
+          },
+          h6: {
+            fontWeight: 600,
+          },
+        },
+        components: {
+          MuiAppBar: {
+            styleOverrides: {
+              root: {
+                backgroundColor: mode === 'light' ? '#ffffff' : '#333333',
+                color: mode === 'light' ? '#4caf50' : '#ff9800',
+              },
+            },
+          },
+          MuiToolbar: {
+            styleOverrides: {
+              root: {
+                minHeight: 64,
+              },
+            },
+          },
+          MuiButton: {
+            styleOverrides: {
+              root: {
+                borderRadius: 8, // Bordes más redondeados
+              },
+            },
+          },
         },
       }),
     [mode]

@@ -3,7 +3,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App.tsx';
 import './index.css';
-import { ActivityProvider } from './context/ActivityContext.tsx';
+import { ActivityProvider } from './context/ActivityProvider'; // Importación correcta
 import { CustomThemeProvider } from './context/ThemeContext';
 import { SnackbarProvider } from 'notistack'; // Importar notistack
 

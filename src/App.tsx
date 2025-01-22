@@ -12,17 +12,22 @@ import {
   Container,
   Box,
   IconButton,
+  useMediaQuery,
 } from '@mui/material';
-import { Brightness4, Brightness7 } from '@mui/icons-material';
+import {
+  Brightness4,
+  Brightness7,
+  LocalFireDepartment,
+} from '@mui/icons-material'; // Añadido un icono
 import { useColorMode } from './hooks/useColorMode';
 import { useTheme } from '@mui/material/styles';
-import { useSnackbar } from 'notistack'; // Importar notistack
+import { useSnackbar } from 'notistack';
 
 function App() {
   const { state, dispatch } = useActivity();
   const { toggleColorMode } = useColorMode();
   const theme = useTheme();
-  const { enqueueSnackbar } = useSnackbar(); // Inicializar notistack
+  const { enqueueSnackbar } = useSnackbar();
 
   useEffect(() => {
     localStorage.setItem('activities', JSON.stringify(state.activities));
@@ -38,36 +43,49 @@ function App() {
     enqueueSnackbar('Aplicación reiniciada correctamente', { variant: 'info' });
   };
 
+  // Detectar si la pantalla es pequeña para ajustar la tipografía
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
+
   return (
     <>
-      <AppBar position='static' color='primary'>
+      <AppBar position='static' color='primary' elevation={4}>
         <Toolbar>
+          {/* Icono o Logo */}
+          <LocalFireDepartment sx={{ mr: 2 }} />
+
           <Typography
-            variant='h6'
+            variant={isSmallScreen ? 'h6' : 'h5'} // Ajustar tamaño según pantalla
             component='div'
             sx={{
               flexGrow: 1,
-              textAlign: 'center',
-              textTransform: 'uppercase',
+              textAlign: 'left', // Alinear a la izquierda para mejor balance
+              textTransform: 'none', // Mantener el caso original
+              fontWeight: 'bold', // Hacer el texto más grueso
+              color: theme.palette.secondary.main, // Cambiar color para mejor contraste
             }}
           >
             Contador de Calorías
           </Typography>
+
+          {/* Botón para alternar modo de color */}
           <IconButton sx={{ ml: 1 }} onClick={toggleColorMode} color='inherit'>
             {theme.palette.mode === 'dark' ? <Brightness7 /> : <Brightness4 />}
           </IconButton>
+
+          {/* Botón para reiniciar la aplicación */}
           <Button
             variant='contained'
             color='secondary'
             disabled={!canRestartApp}
-            onClick={handleRestartApp} // Usar la nueva función
-            sx={{ ml: 2 }}
+            onClick={handleRestartApp}
+            sx={{ ml: 2, textTransform: 'none' }} // Evitar mayúsculas
           >
             Reiniciar App
           </Button>
         </Toolbar>
       </AppBar>
 
+      {/* Contenido Principal */}
       <Box sx={{ py: 5, px: 2 }}>
         <Container maxWidth='lg'>
           <Form />

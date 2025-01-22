@@ -1,0 +1,21 @@
+/* src/index.css */
+
+/* Eliminar márgenes y padding predeterminados */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Fuente predeterminada */
+body {
+  font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+  background-color: var(--background-default);
+  color: var(--text-primary);
+}
+
+/* Personalizar enlaces si los hay */
+a {
+  text-decoration: none;
+  color: inherit;
+}
