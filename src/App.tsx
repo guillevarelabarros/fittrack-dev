@@ -1,54 +1,85 @@
-import { useEffect, useMemo } from 'react'
-import Form from "./components/Form"
-import ActivityList from './components/ActivityList'
-import CalorieTracker from './components/CalorieTracker'
-import { useActivity } from './hooks/useActivity'
+// src/App.tsx
+import { useEffect, useMemo } from 'react';
+import Form from './components/Form';
+import ActivityList from './components/ActivityList';
+import CalorieTracker from './components/CalorieTracker';
+import { useActivity } from './hooks/useActivity';
+import {
+  AppBar,
+  Toolbar,
+  Typography,
+  Button,
+  Container,
+  Box,
+  IconButton,
+} from '@mui/material';
+import { Brightness4, Brightness7 } from '@mui/icons-material';
+import { useColorMode } from './hooks/useColorMode'; // Importar correctamente desde hooks
+import { useTheme } from '@mui/material/styles';
 
 function App() {
+  const { state, dispatch } = useActivity();
+  const { toggleColorMode } = useColorMode();
+  const theme = useTheme();
 
-    const { state, dispatch } = useActivity()
+  useEffect(() => {
+    localStorage.setItem('activities', JSON.stringify(state.activities));
+  }, [state.activities]);
 
-    useEffect(() => {
-        localStorage.setItem('activities', JSON.stringify(state.activities))
-    }, [state.activities])
+  const canRestartApp = useMemo(
+    () => state.activities.length > 0,
+    [state.activities]
+  );
 
-    const canRestartApp = () => useMemo(() => state.activities.length, [state.activities])
-    
-    return (
-        <>
-            <header className="bg-lime-600 py-3">
-                <div className="max-w-4xl mx-auto flex justify-between items-center">
-                    <h1 className="text-center text-lg font-bold text-white uppercase">
-                        Contador de Calorias
-                    </h1>
+  return (
+    <>
+      <AppBar position='static' color='primary'>
+        <Toolbar>
+          <Typography
+            variant='h6'
+            component='div'
+            sx={{
+              flexGrow: 1,
+              textAlign: 'center',
+              textTransform: 'uppercase',
+            }}
+          >
+            Contador de Calorias
+          </Typography>
+          <IconButton sx={{ ml: 1 }} onClick={toggleColorMode} color='inherit'>
+            {theme.palette.mode === 'dark' ? <Brightness7 /> : <Brightness4 />}
+          </IconButton>
+          <Button
+            variant='contained'
+            color='secondary'
+            disabled={!canRestartApp}
+            onClick={() => dispatch({ type: 'restart-app' })}
+            sx={{ ml: 2 }}
+          >
+            Reiniciar App
+          </Button>
+        </Toolbar>
+      </AppBar>
 
-                    <button
-                        className='bg-gray-800 hover:bg-gray-900 p-2 font-bold uppercase text-white cursor-pointer rounded-lg text-sm disabled:opacity-10'
-                        disabled={!canRestartApp()}
-                        onClick={() => dispatch({type: 'restart-app'})}
-                    >
-                        Reiniciar App
-                    </button>
-                </div>
-            </header>
+      <Box sx={{ py: 5, px: 2 }}>
+        <Container maxWidth='lg'>
+          <Form />
+        </Container>
+      </Box>
 
-            <section className="bg-lime-500 py-20 px-5">
-                <div className="max-w-4xl mx-auto">
-                    <Form  />
-                </div>
-            </section>
+      <Box sx={{ py: 2 }}>
+        <Container maxWidth='lg'>
+          <CalorieTracker />
+        </Container>
+      </Box>
 
-            <section className='bg-gray-800 py-10'>
-                <div className='max-w-4xl mx-auto'>
-                    <CalorieTracker />
-                </div>
-            </section>
-
-            <section className="p-10 mx-auto max-w-4xl">
-                <ActivityList  />
-            </section>
-        </>
-    )
+      <Box sx={{ p: 2 }}>
+        <Container maxWidth='lg'>
+          <ActivityList />
+        </Container>
+      </Box>
+    </>
+  );
 }
 
-export default App
+export default App;

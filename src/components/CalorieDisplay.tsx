@@ -1,13 +1,36 @@
-type CalorieDisplayProps = {
-    calories: number
-    text: string
-}
+// src/components/CalorieDisplay.tsx
+import { Typography, Paper } from '@mui/material';
+import { useTheme } from '@mui/material/styles';
 
-export default function CalorieDisplay({calories, text} : CalorieDisplayProps) {
+type CalorieDisplayProps = {
+  calories: number;
+  text: string;
+};
+
+export default function CalorieDisplay({
+  calories,
+  text,
+}: CalorieDisplayProps) {
+  const theme = useTheme();
+
   return (
-    <p className="text-white font-bold rounded-full grid grid-cols-1 gap-3 text-center">
-        <span className="font-black text-6xl text-orange">{calories}</span>
-        {text}
-    </p>
-  )
+    <Paper
+      elevation={3}
+      sx={{
+        p: 3,
+        textAlign: 'center',
+        backgroundColor: theme.palette.mode === 'dark' ? '#424242' : '#ffffff',
+        color: theme.palette.mode === 'dark' ? 'white' : 'black',
+      }}
+    >
+      <Typography
+        variant='h2'
+        component='p'
+        sx={{ fontWeight: 'bold', color: theme.palette.secondary.main, mb: 1 }}
+      >
+        {calories}
+      </Typography>
+      <Typography variant='subtitle1'>{text}</Typography>
+    </Paper>
+  );
 }

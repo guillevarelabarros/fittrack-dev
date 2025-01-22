@@ -1,29 +1,34 @@
-import CalorieDisplay from "./CalorieDisplay"
-import { useActivity } from "../hooks/useActivity"
+// src/components/CalorieTracker.tsx
+import CalorieDisplay from './CalorieDisplay';
+import { useActivity } from '../hooks/useActivity';
+import { Typography, Grid, Box } from '@mui/material';
 
 export default function CalorieTracker() {
+  const { caloriesConsumed, caloriesBurned, netCalories } = useActivity();
 
-    const { caloriesConsumed, caloriesBurned, netCalories } = useActivity()
-    
-    return (
-        <>
-            <h2 className="text-4xl font-black text-white text-center">Resumen de Calorias</h2>
+  return (
+    <Box>
+      <Typography
+        variant='h4'
+        component='h2'
+        align='center'
+        color='white'
+        gutterBottom
+      >
+        Resumen de Calorías
+      </Typography>
 
-            <div className="flex flex-col items-center md:flex-row md:justify-between gap-5 mt-10">
-                <CalorieDisplay
-                    calories={caloriesConsumed}
-                    text="Consumidas"
-                />
-                <CalorieDisplay
-                    calories={caloriesBurned}
-                    text="Ejercicio"
-                />
-                <CalorieDisplay
-                    calories={netCalories}
-                    text="Diferencia"
-                />
-            </div>
- 
-        </>
-    )
+      <Grid container spacing={2} justifyContent='center' sx={{ mt: 2 }}>
+        <Grid item xs={12} md={4}>
+          <CalorieDisplay calories={caloriesConsumed} text='Consumidas' />
+        </Grid>
+        <Grid item xs={12} md={4}>
+          <CalorieDisplay calories={caloriesBurned} text='Ejercicio' />
+        </Grid>
+        <Grid item xs={12} md={4}>
+          <CalorieDisplay calories={netCalories} text='Diferencia' />
+        </Grid>
+      </Grid>
+    </Box>
+  );
 }
