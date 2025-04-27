@@ -19,7 +19,7 @@ import {
   FormControl,
   Grid,
 } from '@mui/material';
-import { SelectChangeEvent } from '@mui/material/Select'; // Importar tipo de evento
+import { SelectChangeEvent } from '@mui/material/Select';
 import { useSnackbar } from 'notistack';
 
 type EditActivityModalProps = {
@@ -34,7 +34,6 @@ export default function EditActivityModal({
   const { state, dispatch } = useActivity();
   const { enqueueSnackbar } = useSnackbar();
 
-  // Estado local para la actividad que se está editando
   const [localActivity, setLocalActivity] = useState<Activity>({
     id: '',
     category: 1,
@@ -42,10 +41,8 @@ export default function EditActivityModal({
     calories: 0,
   });
 
-  // Determinar si se está editando
   const isEditing = state.activeId !== '';
 
-  // Efecto para cargar la actividad cuando se abre el modal
   useEffect(() => {
     if (isEditing) {
       const selectedActivity = state.activities.find(
@@ -55,7 +52,6 @@ export default function EditActivityModal({
         setLocalActivity(selectedActivity);
       }
     } else {
-      // Si no se está editando, limpiar el formulario
       setLocalActivity({
         id: uuidv4(),
         category: 1,
@@ -65,15 +61,11 @@ export default function EditActivityModal({
     }
   }, [isEditing, state.activeId, state.activities]);
 
-  // Manejador de cambios para los TextField
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target;
 
-    // Validar que las calorías no sean negativas
     if (id === 'calories' && Number(value) < 0) {
-      enqueueSnackbar('Las calorías no pueden ser negativas.', {
-        variant: 'error',
-      });
+      enqueueSnackbar('Calories must be greater than 0.', { variant: 'error' });
       return;
     }
 
@@ -83,7 +75,6 @@ export default function EditActivityModal({
     });
   };
 
-  // Manejador de cambios para el Select
   const handleSelectChange = (e: SelectChangeEvent<unknown>) => {
     const { value } = e.target;
     setLocalActivity(prev => ({
@@ -93,12 +84,10 @@ export default function EditActivityModal({
     }));
   };
 
-  // Validar que la actividad sea correcta
   const isValidActivity = () => {
     return localActivity.name.trim() !== '' && localActivity.calories > 0;
   };
 
-  // Al hacer submit
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -109,57 +98,51 @@ export default function EditActivityModal({
 
     enqueueSnackbar(
       isEditing
-        ? 'Actividad editada exitosamente'
-        : 'Actividad agregada exitosamente',
+        ? 'Activity successfully edited'
+        : 'Activity successfully added',
       { variant: 'success' }
     );
 
-    // Cerrar modal y resetear activeId
     handleClose();
   };
 
-  // Cerrar modal y resetear state.activeId
   const handleClose = () => {
     dispatch({ type: 'set-activeId', payload: { id: '' } });
     onClose();
   };
 
-  // Obtener la etiqueta y placeholder dependiendo de la categoría
   const getNameFieldProps = () => {
     if (localActivity.category === 1) {
       return {
-        label: '¿Qué comida?',
-        placeholder: 'Ej. Jugo de Naranja, Ensalada, etc.',
+        label: 'Food Name',
+        placeholder: 'e.g. Orange Juice, Salad, etc.',
       };
     } else {
       return {
-        label: 'Actividad',
-        placeholder: 'Ej. Pesas, Bicicleta, Correr, etc.',
+        label: 'Activity Name',
+        placeholder: 'e.g. Weights, Cycling, Running, etc.',
       };
     }
   };
 
   return (
     <Dialog open={open} onClose={handleClose} fullWidth maxWidth='sm'>
-      <DialogTitle>
-        {isEditing ? 'Editar Actividad' : 'Agregar Actividad'}
-      </DialogTitle>
+      <DialogTitle>{isEditing ? 'Edit Activity' : 'Add Activity'}</DialogTitle>
       <DialogContent>
         <DialogContentText sx={{ mb: 2 }}>
-          Completa los siguientes campos para {isEditing ? 'editar' : 'agregar'}{' '}
-          una actividad.
+          Fill in the fields below to {isEditing ? 'edit' : 'add'} an activity.
         </DialogContentText>
 
         <form onSubmit={handleSubmit}>
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <FormControl fullWidth>
-                <InputLabel id='category-label'>Categoría</InputLabel>
+                <InputLabel id='category-label'>Category</InputLabel>
                 <Select
                   labelId='category-label'
                   id='category'
                   value={localActivity.category}
-                  label='Categoría'
+                  label='Category'
                   onChange={handleSelectChange}
                 >
                   {categories.map(cat => (
@@ -183,9 +166,7 @@ export default function EditActivityModal({
                 required
                 error={localActivity.name.trim() === ''}
                 helperText={
-                  localActivity.name.trim() === ''
-                    ? 'El nombre es obligatorio'
-                    : ''
+                  localActivity.name.trim() === '' ? 'Name is required' : ''
                 }
               />
             </Grid>
@@ -193,10 +174,10 @@ export default function EditActivityModal({
             <Grid item xs={12}>
               <TextField
                 id='calories'
-                label='Calorías'
+                label='Calories'
                 type='number'
                 variant='outlined'
-                placeholder='Calorías. ej. 300 o 500'
+                placeholder='e.g. 300 or 500'
                 value={
                   localActivity.calories === 0 ? '' : localActivity.calories
                 }
@@ -207,7 +188,7 @@ export default function EditActivityModal({
                 error={localActivity.calories <= 0}
                 helperText={
                   localActivity.calories <= 0
-                    ? 'Las calorías deben ser mayores que 0'
+                    ? 'Calories must be greater than 0'
                     : ''
                 }
               />
@@ -216,7 +197,7 @@ export default function EditActivityModal({
 
           <DialogActions sx={{ mt: 2 }}>
             <Button onClick={handleClose} color='secondary'>
-              Cancelar
+              Cancel
             </Button>
             <Button
               type='submit'
@@ -224,7 +205,7 @@ export default function EditActivityModal({
               variant='contained'
               disabled={!isValidActivity()}
             >
-              {isEditing ? 'Guardar Cambios' : 'Guardar Actividad'}
+              {isEditing ? 'Save Changes' : 'Save Activity'}
             </Button>
           </DialogActions>
         </form>
@@ -232,4 +213,3 @@ export default function EditActivityModal({
     </Dialog>
   );
 }
-// EditActivityModal;

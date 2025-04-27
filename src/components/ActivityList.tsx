@@ -15,7 +15,7 @@ import {
 import { useTheme } from '@mui/material/styles';
 import { useState } from 'react';
 import ConfirmDialog from './ConfirmDialog';
-import EditActivityModal from './EditActivityModal'; // Importar el nuevo componente
+import EditActivityModal from './EditActivityModal';
 import { useSnackbar } from 'notistack';
 
 export default function ActivityList() {
@@ -23,14 +23,10 @@ export default function ActivityList() {
   const theme = useTheme();
   const { enqueueSnackbar } = useSnackbar();
 
-  // Estado para la eliminación
   const [openDialog, setOpenDialog] = useState(false);
   const [activityToDelete, setActivityToDelete] = useState<string>('');
-
-  // Estado para la edición (modal)
   const [openEditModal, setOpenEditModal] = useState(false);
 
-  // Eliminar
   const handleDeleteClick = (id: string) => {
     setActivityToDelete(id);
     setOpenDialog(true);
@@ -41,7 +37,7 @@ export default function ActivityList() {
       type: 'delete-activity',
       payload: { id: activityToDelete },
     });
-    enqueueSnackbar('Actividad eliminada exitosamente', { variant: 'success' });
+    enqueueSnackbar('Activity deleted successfully', { variant: 'success' });
     setOpenDialog(false);
     setActivityToDelete('');
   };
@@ -51,9 +47,7 @@ export default function ActivityList() {
     setActivityToDelete('');
   };
 
-  // Editar con Modal
   const handleEditClick = (id: string) => {
-    // Setea la actividad activa y abre el modal
     dispatch({ type: 'set-activeId', payload: { id } });
     setOpenEditModal(true);
   };
@@ -71,12 +65,12 @@ export default function ActivityList() {
         color='textSecondary'
         gutterBottom
       >
-        Comida y Actividades
+        Meals & Activities
       </Typography>
 
       {isEmptyActivities ? (
         <Typography variant='body1' align='center' sx={{ my: 2 }}>
-          No hay actividades aún...
+          No activities yet...
         </Typography>
       ) : (
         <Grid container spacing={2}>
@@ -100,7 +94,7 @@ export default function ActivityList() {
                     mr: 2,
                   }}
                 >
-                  {activity.category === 1 ? 'C' : 'E'}
+                  {activity.category === 1 ? 'F' : 'E'}
                 </Avatar>
                 <CardContent sx={{ flex: '1 0 auto' }}>
                   <Typography variant='h6' component='div'>
@@ -110,11 +104,11 @@ export default function ActivityList() {
                     {categoryName(activity.category)}
                   </Typography>
                   <Typography variant='body1' color='success.main'>
-                    {activity.calories} Calorías
+                    {activity.calories} Calories
                   </Typography>
                 </CardContent>
                 <CardActions>
-                  <Tooltip title='Editar'>
+                  <Tooltip title='Edit'>
                     <IconButton
                       color='primary'
                       onClick={() => handleEditClick(activity.id)}
@@ -122,7 +116,7 @@ export default function ActivityList() {
                       <Edit />
                     </IconButton>
                   </Tooltip>
-                  <Tooltip title='Eliminar'>
+                  <Tooltip title='Delete'>
                     <IconButton
                       color='error'
                       onClick={() => handleDeleteClick(activity.id)}
@@ -137,16 +131,14 @@ export default function ActivityList() {
         </Grid>
       )}
 
-      {/* Diálogo de Confirmación para Eliminar */}
       <ConfirmDialog
         open={openDialog}
-        title='Confirmar Eliminación'
-        content='¿Estás seguro de que deseas eliminar esta actividad? Esta acción no se puede deshacer.'
+        title='Confirm Deletion'
+        content='Are you sure you want to delete this activity? This action cannot be undone.'
         onClose={handleCancelDelete}
         onConfirm={handleConfirmDelete}
       />
 
-      {/* Modal para Editar Actividad */}
       <EditActivityModal open={openEditModal} onClose={handleCloseEditModal} />
     </Box>
   );

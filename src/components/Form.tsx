@@ -17,7 +17,7 @@ import {
   SelectChangeEvent,
   Grid,
 } from '@mui/material';
-import { useSnackbar } from 'notistack'; // Importar notistack
+import { useSnackbar } from 'notistack';
 
 const initialState: Activity = {
   id: uuidv4(),
@@ -30,9 +30,9 @@ export default function Form() {
   const { state, dispatch } = useActivity();
   const [activity, setActivity] = useState<Activity>({
     ...initialState,
-    calories: 0, // Inicializar con 0 para mostrar el placeholder
+    calories: 0,
   });
-  const { enqueueSnackbar } = useSnackbar(); // Inicializar notistack
+  const { enqueueSnackbar } = useSnackbar();
 
   const isEditing = state.activeId !== '';
 
@@ -47,15 +47,13 @@ export default function Form() {
     }
   }, [state.activeId, state.activities]);
 
-  // Manejador de cambios para TextField
   const handleInputChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { id, value } = e.target;
 
-    // Validar que las calorías no sean negativas
     if (id === 'calories' && Number(value) < 0) {
-      enqueueSnackbar('Las calorías no pueden ser negativas.', {
+      enqueueSnackbar('Calories cannot be negative.', {
         variant: 'error',
       });
       return;
@@ -67,13 +65,11 @@ export default function Form() {
     });
   };
 
-  // Manejador de cambios para Select
   const handleSelectChange = (e: SelectChangeEvent<number>) => {
     const { value } = e.target;
     setActivity({
       ...activity,
       category: Number(value),
-      // Reiniciar el nombre al cambiar la categoría
       name: '',
     });
   };
@@ -89,42 +85,37 @@ export default function Form() {
     dispatch({ type: 'save-activity', payload: { newActivity: activity } });
     enqueueSnackbar(
       isEditing
-        ? 'Actividad editada exitosamente'
-        : 'Actividad agregada exitosamente',
+        ? 'Activity edited successfully'
+        : 'Activity added successfully',
       { variant: 'success' }
     );
     setActivity({
       ...initialState,
       id: uuidv4(),
-      calories: 0, // Reiniciar con 0 para mostrar el placeholder
+      calories: 0,
     });
   };
 
   const handleCancelEdit = () => {
-    // Reiniciar el formulario al estado inicial
     setActivity({
       ...initialState,
       id: uuidv4(),
       calories: 0,
     });
-    // Resetear activeId en el estado global
     dispatch({ type: 'set-activeId', payload: { id: '' } });
-    enqueueSnackbar('Edición cancelada', { variant: 'info' });
+    enqueueSnackbar('Editing canceled', { variant: 'info' });
   };
 
-  // Determinar etiqueta y placeholder según la categoría seleccionada
   const getNameFieldProps = () => {
     if (activity.category === 1) {
-      // Comida
       return {
-        label: '¿Qué comida?',
-        placeholder: 'Ej. Jugo de Naranja, Ensalada, etc.',
+        label: 'What food?',
+        placeholder: 'e.g. Orange Juice, Salad, etc.',
       };
     } else {
-      // Ejercicio
       return {
-        label: 'Actividad',
-        placeholder: 'Ej. Pesas, Bicicleta, Correr, etc.',
+        label: 'Activity',
+        placeholder: 'e.g. Weights, Biking, Running, etc.',
       };
     }
   };
@@ -132,18 +123,19 @@ export default function Form() {
   return (
     <Paper elevation={3} sx={{ p: 4, borderRadius: 2 }}>
       <Typography variant='h5' component='h3' gutterBottom>
-        {isEditing ? 'Editar Actividad' : 'Agregar Actividad'}
+        {isEditing ? 'Edit Activity' : 'Add Activity'}
       </Typography>
+
       <Box component='form' onSubmit={handleSubmit} sx={{ mt: 2 }}>
         <Grid container spacing={2}>
           <Grid item xs={12} md={isEditing ? 6 : 12}>
             <FormControl fullWidth sx={{ mb: 2 }}>
-              <InputLabel id='category-label'>Categoría</InputLabel>
+              <InputLabel id='category-label'>Category</InputLabel>
               <Select
                 labelId='category-label'
                 id='category'
                 value={activity.category}
-                label='Categoría'
+                label='Category'
                 onChange={handleSelectChange}
               >
                 {categories.map(category => (
@@ -168,7 +160,7 @@ export default function Form() {
                 onClick={handleCancelEdit}
                 fullWidth
               >
-                Cancelar Edición
+                Cancel Editing
               </Button>
             </Grid>
           )}
@@ -185,30 +177,28 @@ export default function Form() {
           sx={{ mb: 2 }}
           required
           error={activity.name.trim() === ''}
-          helperText={
-            activity.name.trim() === '' ? 'El nombre es obligatorio' : ''
-          }
+          helperText={activity.name.trim() === '' ? 'Name is required' : ''}
         />
 
         <TextField
           id='calories'
-          label='Calorías'
+          label='Calories'
           type='number'
           variant='outlined'
           fullWidth
-          placeholder='Calorías. ej. 300 o 500'
-          value={activity.calories === 0 ? '' : activity.calories} // Mostrar vacío si es 0
+          placeholder='Calories, e.g. 300 or 500'
+          value={activity.calories === 0 ? '' : activity.calories}
           onChange={handleInputChange}
           sx={{ mb: 2 }}
           required
           InputProps={{
             inputProps: {
-              min: 1, // Evitar números negativos
+              min: 1,
             },
           }}
           error={activity.calories <= 0}
           helperText={
-            activity.calories <= 0 ? 'Las calorías deben ser mayores que 0' : ''
+            activity.calories <= 0 ? 'Calories must be greater than 0' : ''
           }
         />
 
@@ -219,7 +209,7 @@ export default function Form() {
           fullWidth
           disabled={!isValidActivity()}
         >
-          {isEditing ? 'Guardar Cambios' : 'Guardar Actividad'}
+          {isEditing ? 'Save Changes' : 'Save Activity'}
         </Button>
       </Box>
     </Paper>

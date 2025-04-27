@@ -18,7 +18,7 @@ import {
   Brightness4,
   Brightness7,
   LocalFireDepartment,
-} from '@mui/icons-material'; // Añadido un icono
+} from '@mui/icons-material';
 import { useColorMode } from './hooks/useColorMode';
 import { useTheme } from '@mui/material/styles';
 import { useSnackbar } from 'notistack';
@@ -40,52 +40,47 @@ function App() {
 
   const handleRestartApp = () => {
     dispatch({ type: 'restart-app' });
-    enqueueSnackbar('Aplicación reiniciada correctamente', { variant: 'info' });
+    enqueueSnackbar('App successfully restarted', { variant: 'info' });
   };
 
-  // Detectar si la pantalla es pequeña para ajustar la tipografía
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
   return (
     <>
       <AppBar position='static' color='primary' elevation={4}>
         <Toolbar>
-          {/* Icono o Logo */}
           <LocalFireDepartment sx={{ mr: 2 }} />
 
           <Typography
-            variant={isSmallScreen ? 'h6' : 'h5'} // Ajustar tamaño según pantalla
+            variant={isSmallScreen ? 'h6' : 'h5'}
             component='div'
             sx={{
               flexGrow: 1,
-              textAlign: 'left', // Alinear a la izquierda para mejor balance
-              textTransform: 'none', // Mantener el caso original
-              fontWeight: 'bold', // Hacer el texto más grueso
-              color: theme.palette.secondary.main, // Cambiar color para mejor contraste
+              textAlign: 'left',
+              textTransform: 'none',
+              fontWeight: 'bold',
+              color: theme.palette.secondary.main,
             }}
           >
-            Contador de Calorías
+            FitTrack - Calorie Manager
           </Typography>
 
-          {/* Botón para alternar modo de color */}
           <IconButton sx={{ ml: 1 }} onClick={toggleColorMode} color='inherit'>
             {theme.palette.mode === 'dark' ? <Brightness7 /> : <Brightness4 />}
           </IconButton>
 
-          {/* Botón para reiniciar la aplicación */}
           <Button
             variant='contained'
             color='secondary'
             disabled={!canRestartApp}
             onClick={handleRestartApp}
-            sx={{ ml: 2, textTransform: 'none' }} // Evitar mayúsculas
+            sx={{ ml: 2, textTransform: 'none' }}
           >
-            Reiniciar App
+            Restart App
           </Button>
         </Toolbar>
       </AppBar>
 
-      {/* Contenido Principal */}
       <Box sx={{ py: 5, px: 2 }}>
         <Container maxWidth='lg'>
           <Form />

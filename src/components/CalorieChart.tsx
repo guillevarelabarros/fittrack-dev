@@ -16,16 +16,16 @@ const CalorieChart = () => {
 
   const data = [
     {
-      name: 'Calorías',
-      Consumidas: caloriesConsumed,
-      Quemadas: caloriesBurned,
+      name: 'Calories',
+      Consumed: caloriesConsumed,
+      Burned: caloriesBurned,
     },
   ];
 
   return (
     <Paper elevation={3} sx={{ p: 3, mt: 4 }}>
       <Typography variant='h6' gutterBottom align='center'>
-        Gráfico de Calorías
+        Calories Chart
       </Typography>
       <ResponsiveContainer width='100%' height={300}>
         <BarChart data={data}>
@@ -33,8 +33,8 @@ const CalorieChart = () => {
           <YAxis allowDecimals={false} />
           <Tooltip />
           <Legend />
-          <Bar dataKey='Consumidas' fill='#84cc16' />
-          <Bar dataKey='Quemadas' fill='#f44336' />
+          <Bar dataKey='Consumed' fill='#84cc16' />
+          <Bar dataKey='Burned' fill='#f44336' />
         </BarChart>
       </ResponsiveContainer>
     </Paper>
