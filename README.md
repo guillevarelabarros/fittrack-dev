@@ -115,7 +115,8 @@ Clear separation of concerns and reusable components
 
 ## 📫 Contact
 
-👨‍💻 Built by Guille Varela Barros 📧 Email: guillevarelabarros@gmail.com
+👨‍💻 Built by Guillermo Ignacio Varela Barros 📧 Email:
+guillevarelabarros@gmail.com
 
 ## 📝 License
 
