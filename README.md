@@ -1,27 +1,125 @@
-# React + TypeScript + Vite
+# 🥗 FitTrack - Calorie Manager
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+![screenshot](./public/screen1.png)
 
-Currently, two official plugins are available:
+**FitTrack** is a responsive calorie tracking web application built with
+**React + TypeScript**, styled with **Material UI**, and powered by **Context
+API** + `useReducer` for global state management. It allows users to log meals
+and exercises to monitor their daily calorie intake, burn, and net balance.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🚀 Live Demo
 
-## Expanding the ESLint configuration
+👉 [Live Demo on Netlify](https://fittrack-calories.netlify.app) ← _(Replace
+with your actual URL)_
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+---
 
-- Configure the top-level `parserOptions` property like this:
+## 🧠 Technologies Used
 
-```js
-   parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-   },
+- ⚛️ **React 18** with **TypeScript**
+- 🎨 **Material UI (MUI)**
+- 🧠 **Context API** + `useReducer`
+- 📊 **Recharts** for data visualization
+- 🍿 **notistack** for snack notifications
+- 🌗 Light and dark mode support
+- 💾 LocalStorage persistence
+- ⚡ Built with Vite
+
+---
+
+## 📸 Screenshots
+
+| Add Activity                     | Summary                          | Meals & Activities               |
+| -------------------------------- | -------------------------------- | -------------------------------- |
+| ![screen1](./public/screen1.png) | ![screen2](./public/screen2.png) | ![screen3](./public/screen3.png) |
+
+---
+
+## 🗂️ Folder Structure
+
+src/ ├── components/ # Main visual components ├── context/ # Global contexts and
+providers ├── data/ # Static data (categories) ├── hooks/ # Custom React hooks
+├── reducers/ # State management with useReducer ├── types/ # TypeScript type
+definitions ├── App.tsx # Root component └── main.tsx # App entry point
+
+---
+
+## ✨ Features
+
+✅ Add meals or exercises  
+✅ See calories consumed, burned, and net difference  
+✅ View bar chart summary  
+✅ Edit and delete existing records  
+✅ Toggle between light and dark mode  
+✅ Responsive design  
+✅ LocalStorage data persistence (no backend required)
+
+---
+
+## 📦 Installation
+
+1. Clone the repository
+
+```bash
+git clone https://github.com/guillevarelabarros/fittrack-calorie-manager.git
+cd fittrack-calorie-manager
 ```
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+---
+
+## ✨ Features
+
+✅ Add meals or exercises  
+✅ See calories consumed, burned, and net difference  
+✅ View bar chart summary  
+✅ Edit and delete existing records  
+✅ Toggle between light and dark mode  
+✅ Responsive design  
+✅ LocalStorage data persistence (no backend required)
+
+---
+
+## 📦 Installation
+
+```bash
+1. Clone the repository
+git clone https://github.com/guillevarelabarros/fittrack-calorie-manager.git
+cd fittrack-calorie-manager
+
+
+2. Install dependencies
+yarn install
+
+3. Run the development server
+yarn dev
+
+4. Build for production
+yarn build
+```
+
+## 🧪 What This Project Demonstrates
+
+This project showcases:
+
+Global state management with React Hooks (without Redux)
+
+Clean modular code architecture
+
+Strong grasp of React + TypeScript + MUI
+
+Real-world UI with responsive and accessible components
+
+Usage of modern libraries and best practices
+
+Clear separation of concerns and reusable components
+
+## 📫 Contact
+
+👨‍💻 Built by Guille Varela Barros 📧 Email: guillevarelabarros@gmail.com
+
+## 📝 License
+
+This project is licensed under the MIT License. Feel free to use, modify, or
+adapt it for your own purposes.
+
+"It’s not just about counting calories — it’s about taking control." — Guille 💪
