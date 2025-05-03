@@ -52,9 +52,11 @@ export const ActivityProvider = ({ children }: ActivityProviderProps) => {
   );
 
   const categoryName = useMemo(
-    () => (category: Activity['category']) =>
-      categories.map(cat => (cat.id === category ? cat.name : '')),
-    [state.activities]
+    () => (category: Activity['category']) => {
+      const cat = categories.find(cat => cat.id === category);
+      return cat ? cat.name : 'Unknown';
+    },
+    []
   );
 
   const isEmptyActivities = useMemo(
