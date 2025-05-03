@@ -18,7 +18,7 @@ type ActivityContextProps = {
   caloriesConsumed: number;
   caloriesBurned: number;
   netCalories: number;
-  categoryName: (category: Activity['category']) => string[];
+  categoryName: (category: Activity['category']) => string;
   isEmptyActivities: boolean;
 };
 
