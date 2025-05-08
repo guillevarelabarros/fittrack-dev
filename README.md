@@ -9,8 +9,7 @@ and exercises to monitor their daily calorie intake, burn, and net balance.
 
 ## 🚀 Live Demo
 
-👉 [Live Demo on Netlify](https://fittrack-calories.netlify.app) ← _(Replace
-with your actual URL)_
+👉 [Live Demo on Netlify](https://fittrack-dev.netlify.app/)
 
 ---
 
@@ -113,14 +112,13 @@ Usage of modern libraries and best practices
 
 Clear separation of concerns and reusable components
 
-## 📫 Contact
+## 🧑‍💻 Author
 
-👨‍💻 Built by Guillermo Ignacio Varela Barros 📧 Email:
-guillevarelabarros@gmail.com
+**Guille Varela Barros** – [LinkedIn](www.linkedin.com/in/guillevarelabarros) |
+[Github](https://github.com/guillevarelabarros)
+
+If you liked this project, please ⭐ it and feel free to connect!
 
 ## 📝 License
-
-This project is licensed under the MIT License. Feel free to use, modify, or
-adapt it for your own purposes.
 
 "It’s not just about counting calories — it’s about taking control." — Guille 💪
